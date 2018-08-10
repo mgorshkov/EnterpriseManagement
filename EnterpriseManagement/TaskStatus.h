@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <assert.h>
 
 enum class TaskStatus
 {
@@ -31,9 +32,9 @@ inline std::ostream& operator << (std::ostream& stream, TaskStatus os)
     return stream << status;
 }
 
-struct CompleteTaskStatus
+struct TaskResult
 {
-    CompleteTaskStatus(TaskStatus aStatus = TaskStatus::Ok, const Employee& aEmployee)
+    TaskResult(TaskStatus aStatus = TaskStatus::Ok, const Employee& aEmployee = Employee())
         : mStatus(aStatus)
         , mEmployee(aEmployee)
     {
@@ -41,10 +42,10 @@ struct CompleteTaskStatus
     TaskStatus mStatus;
     Employee mEmployee;
 
-    friend std::ostream& operator << (std::ostream& stream, CompleteTaskStatus os)
+    friend std::ostream& operator << (std::ostream& stream, TaskResult result)
     {
-        stream << os.mEmployee;
-        stream << os.mStatus;
+        stream << result.mEmployee;
+        stream << result.mStatus;
         stream << std::endl;
         return stream;
     }

@@ -2,7 +2,7 @@
 #include <list>
 #include <string>
 
-#include "EnperpriseManagement.h"
+#include "EnterpriseManagement.h"
 
 int main(int argc, char* argv[])
 {

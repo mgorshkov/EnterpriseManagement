@@ -1,19 +1,25 @@
 #pragma once
 
 #include <string>
+#include <list>
+#include <unordered_map>
 
-#include "Role.h"
-#include "Task.h"
-
-class Employee
+struct Employee
 {
-public:
-    Employee(const std::string& aDepartment, const std::string& aName, Role aRole);
-
-    bool FillTask(Task aTask) const;
-
-private:
     std::string mDepartment;
     std::string mName;
-    Role mRole;
+    std::string mRole;
+
+    friend std::ostream& operator << (std::ostream& stream, const Employee& aEmployee)
+    {
+        stream << aEmployee.mDepartment
+        	<< std::string(" ")
+        	<< aEmployee.mName
+        	<< std::string(" ")
+        	<< aEmployee.mRole;
+        return stream;
+    }
 };
+
+using Department = std::list<Employee>;
+using Departments = std::unordered_map<std::string, Department>;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <set>
+
 enum class Task
 {
     GoOnVacation,
@@ -13,52 +15,71 @@ enum class Task
     MakeQuarterlyReport,
 };
 
-inline std::ostream& operator << (std::ostream& stream, Task t)
+class ITask
 {
-    std::string status;
-    switch (t)
-    {
-    case Task::GoOnVacation:
-        status = "Go On Vacation";
-        break;
-    case Task::CleanUpWorkplace:
-        status = "Clean Up Workplace";
-        break;
-    case Task::Code:
-        status = "Code";
-        break;
-    case Task::ProgramDesign:
-        status = "Program Design";
-        break;
-    case Task::Translate:
-        status = "Translate";
-        break;
-    case Task::Test:
-        status = "Test";
-        break;
-    case Task::MakeTestPlan:
-        status = "MakeTestPlan";
-        break;
-    case Task::CalcSalary:
-        status = "CalcSalary";
-        break;
-    case Task::MakeQuarterlyReport:
-        status = "MakeQuarterlyReport";
-        break;
-    default:
-        status = "Unknown Task";
-        break;
-    }
-    return stream << status;
-}
+public:
+    virtual ~ITask() = default;
 
-struct TaskInfo
-{
-    Task mTask;
-    std::string mTaskDescription;
+    virtual std::string GetName() const = 0;
 };
 
-extern std::vector<Task> gCommonTasks;
+inline std::ostream& operator << (std::ostream& stream, const ITask& t)
+{
+    return stream << t.GetName();
+}
 
-extern RoleTasks gRoleTasks;
+using Tasks = std::set<Task>;
 
+class TaskGoOnVacation : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskCleanUpWorkplace : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskCode : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskProgramDesign : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskTranslate : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskTest : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskMakeTestPlan : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskCalcSalary : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};
+
+class TaskMakeQuarterlyReport : public ITask
+{
+public:
+    virtual std::string GetName() const;
+};

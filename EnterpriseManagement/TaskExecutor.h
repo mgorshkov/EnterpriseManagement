@@ -4,18 +4,28 @@
 #include <map>
 #include <memory>
 
-#include "Taskhandler.h"
+#include "Role.h"
+#include "Task.h"
+#include "Employee.h"
+#include "TaskStatus.h"
 
 class TaskExecutor
 {
 public:
-    TaskExecutor(ITaskManager* aTaskManager);
+    TaskExecutor(const Departments& aDepartments);
 
-    CompleteOperationStatus RunTask(const std::string& aLine);
+    TaskResult ExecuteTask(const std::string& aLine);
 
 private:
-    void RegisterHandler(Task aTask, std::unique_ptr<TaskHandler> aTaskHandler);
-    CompleteTask Parse(const std::string& aLine);
+    void RegisterRole(Role aRole, std::unique_ptr<IRole> aRoleHandler);
+    void RegisterTask(Task aTask, std::unique_ptr<ITask> aTaskHandler);
 
-    std::unordered_map<Task, std::unique_ptr<TaskHandler>> mTaskHandlers;
+    TaskResult ExecuteTaskByPersonOrDepartment(Task aTask, const std::string& aTaskBody);
+    TaskResult ExecuteTaskByEverybody(Task aTask);
+
+
+    std::unordered_map<Role, std::unique_ptr<IRole>> mRoleHandlers;
+    std::unordered_map<Task, std::unique_ptr<ITask>> mTaskHandlers;
+
+    Departments mDepartments;
 };

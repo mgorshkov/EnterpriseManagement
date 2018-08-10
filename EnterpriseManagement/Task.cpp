@@ -1,46 +1,37 @@
-#pragma once
+#include "Task.h"
 
-enum class Task
+std::string TaskGoOnVacation::GetName() const
 {
-    GoOnVacation,
-    CleanUpWorkplace,
-    Code,
-    ProgramDesign,
-    Translate,
-    Test,
-    MakeTestPlan,
-    CalcSalary,
-    MakeQuarterlyReport,
-};
-
-std::vector<TaskInfo> gTaskInfo
-{
-    { GoOnVacation, "Уйти в отпуск"},
 }
 
-#pragma once
-
-std::vector<Task> gCommonTasks =
+std::string TaskCleanUpWorkplace::GetName() const
 {
-    GoOnVacation,
-    CleanUpWorkplace,
-};
+}
 
-RoleTasks gRoleTasks =
+std::string TaskCode::GetName() const
 {
-    {
-        Developer, "Разработчик", {Code, ProgramDesign}
-    },
-    {
-        TechnicalWriter, "Технический писатель", {Translate}
-    },
-    {
-        Tester, {Test, MakeTestPlan}
-    },
-    {
-        Accountant, {CalcSalary, MakeQuarterlyReport}
-    },
-};
+}
 
+std::string TaskProgramDesign::GetName() const
+{
+}
 
-;
+std::string TaskTranslate::GetName() const
+{
+}
+
+std::string TaskTest::GetName() const
+{
+}
+
+std::string TaskMakeTestPlan::GetName() const
+{
+}
+
+std::string TaskCalcSalary::GetName() const
+{
+}
+
+std::string TaskMakeQuarterlyReport::GetName() const
+{
+}

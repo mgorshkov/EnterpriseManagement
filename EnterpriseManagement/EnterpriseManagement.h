@@ -2,6 +2,7 @@
 
 #include <list>
 #include <string>
+#include <memory>
 
 #include "TaskExecutor.h"
 
@@ -13,5 +14,9 @@ public:
     void Run();
 
 private:
-    TaskExecutor mTaskExecutor;
+	void ParseEmployees();
+    void ProcessCommands();
+
+	std::list<std::string> mFiles;
+    std::unique_ptr<TaskExecutor> mTaskExecutor;
 };
