@@ -1,29 +1,28 @@
 #include "EnterpriseManagement.h"
 #include "CsvParser.h"
+#include "TaskExecutor.h"
 
-EnterpriseManagement::EnterpriseManagement(const std::list<std::string>& aFiles)
-    : mFiles(aFiles)
+EnterpriseManagement::EnterpriseManagement(const Files& aFiles)
 {
+    auto employees = ParseEmployees(aFiles);
+    if (!employees.empty())
+        ProcessCommands(employees);
 }
 
-void EnterpriseManagement::Run()
+Employees EnterpriseManagement::ParseEmployees(const Files& aFiles)
 {
-    ParseEmployees();
-    ProcessCommands();
+    CsvParser parser(aFiles);
+    return parser.GetEmployees();
 }
 
-void EnterpriseManagement::ParseEmployees()
+void EnterpriseManagement::ProcessCommands(const Employees& aEmployees)
 {
-    auto employees = CsvParser::Parse(mFiles);
-    mTaskExecutor = std::make_unique<TaskExecutor>(employees);
-}
+    TaskExecutor taskExecutor(aEmployees);
 
-void EnterpriseManagement::ProcessCommands()
-{
-    std::string line;
-	while (std::getline(std::cin, line))
+    std::wstring line;
+    while (std::getline(std::wcin, line))
     {
-        auto status = mTaskExecutor->ExecuteTask(line);
-        std::cout << status << std::endl;
+        auto status = taskExecutor.PerformTask(line);
+        std::wcout << status << std::endl;
     }
 }

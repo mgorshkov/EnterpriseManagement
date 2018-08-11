@@ -1,29 +1,41 @@
 #pragma once
 
 #include <iostream>
-#include <string>
+#include <list>
 #include <assert.h>
+
+#include "Employee.h"
 
 enum class TaskStatus
 {
     Ok,
+    CannotPerform,
+    UnknownEmployee,
+    UnknownDepartment,
     UnknownEmployeeOrDepartment,
     UnknownTask,
+    UnknownRole
 };
 
-inline std::ostream& operator << (std::ostream& stream, TaskStatus os)
+inline std::wostream& operator << (std::wostream& stream, TaskStatus os)
 {
-    std::string status;
+    std::wstring status;
     switch (os)
     {
     case TaskStatus::Ok:
-        status = "OK";
+        status = L"OK";
         break;
     case TaskStatus::UnknownEmployeeOrDepartment:
-        status = "ERR unknown employee or department";
+        status = L"ERR неизвестный сотрудник или отдел";
+        break;
+    case TaskStatus::UnknownEmployee:
+        status = L"ERR неизвестный сотрудник";
+        break;
+    case TaskStatus::UnknownDepartment:
+        status = L"ERR неизвестный отдел";
         break;
     case TaskStatus::UnknownTask:
-        status = "ERR cannot execute this task";
+        status = L"ERR неизвестная задача";
         break;
     default:
         assert(0);
@@ -42,7 +54,7 @@ struct TaskResult
     TaskStatus mStatus;
     Employee mEmployee;
 
-    friend std::ostream& operator << (std::ostream& stream, TaskResult result)
+    inline friend std::wostream& operator << (std::wostream& stream, const TaskResult& result)
     {
         stream << result.mEmployee;
         stream << result.mStatus;
@@ -50,3 +62,12 @@ struct TaskResult
         return stream;
     }
 };
+
+using TaskResults = std::list<TaskResult>;
+
+inline std::wostream& operator << (std::wostream& stream, const TaskResults& results)
+{
+    for (auto result : results)
+        stream << result;
+    return stream;
+}

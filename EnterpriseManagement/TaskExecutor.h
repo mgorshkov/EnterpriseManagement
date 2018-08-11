@@ -12,20 +12,26 @@
 class TaskExecutor
 {
 public:
-    TaskExecutor(const Departments& aDepartments);
+    TaskExecutor(const Employees& aEmployees);
 
-    TaskResult ExecuteTask(const std::string& aLine);
+    TaskResults PerformTask(const std::wstring& aLine);
 
 private:
-    void RegisterRole(Role aRole, std::unique_ptr<IRole> aRoleHandler);
-    void RegisterTask(Task aTask, std::unique_ptr<ITask> aTaskHandler);
+    void RegisterRoles();
+    void RegisterTasks();
 
-    TaskResult ExecuteTaskByPersonOrDepartment(Task aTask, const std::string& aTaskBody);
-    TaskResult ExecuteTaskByEverybody(Task aTask);
+    void RegisterRole(Role aRole, std::unique_ptr<IRoleHandler> aRoleHandler);
+    void RegisterTask(Task aTask, std::unique_ptr<ITaskDescriptor> aTaskDescriptor);
+
+    TaskResults PerformTaskByEmployee(Task aTask, const Employee& aEmployee);
+    TaskResults PerformTaskByEmployee(Task aTask, const std::wstring& aDepartment, const std::wstring& aEmployeeName);
+    TaskResults PerformTaskByDepartment(Task aTask, const std::wstring& aDepartment);
+    TaskResults PerformTaskByEmployeeOrDepartment(Task aTask, const std::wstring& aTaskBody);
+    TaskResults PerformTaskByEverybody(Task aTask);
 
 
-    std::unordered_map<Role, std::unique_ptr<IRole>> mRoleHandlers;
-    std::unordered_map<Task, std::unique_ptr<ITask>> mTaskHandlers;
+    std::unordered_map<Role, std::unique_ptr<IRoleHandler>> mRoleHandlers;
+    std::unordered_map<Task, std::unique_ptr<ITaskDescriptor>> mTaskDescriptors;
 
-    Departments mDepartments;
+    Employees mEmployees;
 };

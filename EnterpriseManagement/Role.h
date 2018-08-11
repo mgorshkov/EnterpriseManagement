@@ -9,25 +9,24 @@ enum class Role
     Developer,
     TechnicalWriter,
     Tester,
-    Accountant
+    Accountant,
+    Count // role counter, should be the last
 };
 
-class IRole
+class IRoleHandler
 {
 public:
-    virtual ~IRole() = default;
+    virtual ~IRoleHandler() = default;
 
-    virtual Role GetRole() const = 0;
     virtual Tasks GetAvailableTasks() const = 0;
     virtual std::wstring GetName() const = 0;
 
     bool CanPerformTask(Task aTask) const;
 };
 
-class RoleCommon : public IRole
+class RoleCommonHandler : public IRoleHandler
 {
 public:
-    Role GetRole() const;
     Tasks GetAvailableTasks() const;
     std::wstring GetName() const;
 
@@ -35,34 +34,30 @@ protected:
     Tasks AppendTasks(const Tasks& aTasks) const;
 };
 
-class RoleDeveloper : public RoleCommon
+class RoleDeveloperHandler : public RoleCommonHandler
 {
 public:
-    Role GetRole() const;
     Tasks GetAvailableTasks() const;
     std::wstring GetName() const;
 };
 
-class RoleTechnicalWriter : public RoleCommon
+class RoleTechnicalWriterHandler : public RoleCommonHandler
 {
 public:
-    Role GetRole() const;
     Tasks GetAvailableTasks() const;
     std::wstring GetName() const;
 };
 
-class RoleTester : public RoleCommon
+class RoleTesterHandler : public RoleCommonHandler
 {
 public:
-    Role GetRole() const;
     Tasks GetAvailableTasks() const;
     std::wstring GetName() const;
 };
 
-class RoleAccountant : public RoleCommon
+class RoleAccountantHandler : public RoleCommonHandler
 {
 public:
-    Role GetRole() const;
     Tasks GetAvailableTasks() const;
     std::wstring GetName() const;
 };

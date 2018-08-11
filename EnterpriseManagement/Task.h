@@ -1,6 +1,7 @@
 #pragma once
 
 #include <set>
+#include <iostream>
 
 enum class Task
 {
@@ -13,73 +14,74 @@ enum class Task
     MakeTestPlan,
     CalcSalary,
     MakeQuarterlyReport,
+    Count // task counter, should be the last
 };
 
-class ITask
+class ITaskDescriptor
 {
 public:
-    virtual ~ITask() = default;
+    virtual ~ITaskDescriptor() = default;
 
-    virtual std::string GetName() const = 0;
+    virtual std::wstring GetName() const = 0;
 };
 
-inline std::ostream& operator << (std::ostream& stream, const ITask& t)
+inline std::wostream& operator << (std::wostream& stream, const ITaskDescriptor& t)
 {
     return stream << t.GetName();
 }
 
 using Tasks = std::set<Task>;
 
-class TaskGoOnVacation : public ITask
+class TaskGoOnVacationDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskCleanUpWorkplace : public ITask
+class TaskCleanUpWorkplaceDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskCode : public ITask
+class TaskCodeDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskProgramDesign : public ITask
+class TaskProgramDesignDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskTranslate : public ITask
+class TaskTranslateDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskTest : public ITask
+class TaskTestDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskMakeTestPlan : public ITask
+class TaskMakeTestPlanDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskCalcSalary : public ITask
+class TaskCalcSalaryDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };
 
-class TaskMakeQuarterlyReport : public ITask
+class TaskMakeQuarterlyReportDescriptor : public ITaskDescriptor
 {
 public:
-    virtual std::string GetName() const;
+    virtual std::wstring GetName() const;
 };

@@ -3,83 +3,68 @@
 #include "Role.h"
 #include "Task.h"
 
-bool IRole::CanPerformTask(Task aTask) const
+bool IRoleHandler::CanPerformTask(Task aTask) const
 {
     auto tasks = GetAvailableTasks();
     return tasks.find(aTask) != tasks.end();
 }
 
-Tasks RoleCommon::GetAvailableTasks() const
+std::wstring RoleCommonHandler::GetName() const
+{
+    return L"";
+}
+
+Tasks RoleCommonHandler::GetAvailableTasks() const
 {
     return Tasks{Task::GoOnVacation, Task::CleanUpWorkplace};
 }
 
-Tasks RoleCommon::AppendTasks(const Tasks& aTasks) const
+Tasks RoleCommonHandler::AppendTasks(const Tasks& aTasks) const
 {
-    auto tasks = RoleCommon::GetAvailableTasks();
+    auto tasks = RoleCommonHandler::GetAvailableTasks();
     Tasks output;
     std::set_union(tasks.begin(), tasks.end(),
                    aTasks.begin(), aTasks.end(),
-                   std::inserter(output));
+                   std::inserter(output, output.begin()));
     return output;
 }
 
-Role RoleDeveloper::GetRole() const
-{
-    return Role::Developer;
-}
-
-Tasks RoleDeveloper::GetAvailableTasks() const
+Tasks RoleDeveloperHandler::GetAvailableTasks() const
 {
     return AppendTasks(Tasks{Task::Code, Task::ProgramDesign});
 }
 
-std::wstring RoleDeveloper::GetName() const
+std::wstring RoleDeveloperHandler::GetName() const
 {
     return L"Разработчик";
 }
 
-Role RoleTechnicalWriter::GetRole() const
-{
-    return Role::TechnicalWriter;
-}
-
-Tasks RoleTechnicalWriter::GetAvailableTasks() const
+Tasks RoleTechnicalWriterHandler::GetAvailableTasks() const
 {
     return AppendTasks(Tasks{Task::Translate});
 }
 
-std::wstring RoleTechnicalWriter::GetName() const
+std::wstring RoleTechnicalWriterHandler::GetName() const
 {
     return L"Технический писатель";
 }
 
-Role RoleTester::GetRole() const
-{
-    return Role::Tester;
-}
-
-Tasks RoleTester::GetAvailableTasks() const
+Tasks RoleTesterHandler::GetAvailableTasks() const
 {
     return AppendTasks(Tasks{Task::Test, Task::MakeTestPlan});
 }
 
-std::wstring RoleTester::GetName() const
+std::wstring RoleTesterHandler::GetName() const
 {
     return L"Специалист тестирования";
 }
 
-Role RoleAccountant::GetRole() const
-{
-    return Role::Accountant;
-}
-
-Tasks RoleAccountant::GetAvailableTasks() const
+Tasks RoleAccountantHandler::GetAvailableTasks() const
 {
     return AppendTasks(Tasks{Task::CalcSalary, Task::MakeQuarterlyReport});
 }
 
-std::wstring RoleAccountant::GetName() const
+std::wstring RoleAccountantHandler::GetName() const
 {
     return L"Бухгалтер";
 }

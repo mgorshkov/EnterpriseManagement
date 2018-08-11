@@ -1,37 +1,46 @@
 #include "Task.h"
 
-std::string TaskGoOnVacation::GetName() const
+std::wstring TaskGoOnVacationDescriptor::GetName() const
 {
+    return L"уйти в отпуск";
 }
 
-std::string TaskCleanUpWorkplace::GetName() const
+std::wstring TaskCleanUpWorkplaceDescriptor::GetName() const
 {
+    return L"убрать рабочее место";
 }
 
-std::string TaskCode::GetName() const
+std::wstring TaskCodeDescriptor::GetName() const
 {
+    return L"программировать";
 }
 
-std::string TaskProgramDesign::GetName() const
+std::wstring TaskProgramDesignDescriptor::GetName() const
 {
+    return L"проектировать";
 }
 
-std::string TaskTranslate::GetName() const
+std::wstring TaskTranslateDescriptor::GetName() const
 {
+    return L"переводить тексты";
 }
 
-std::string TaskTest::GetName() const
+std::wstring TaskTestDescriptor::GetName() const
 {
+    return L"тестировать";
 }
 
-std::string TaskMakeTestPlan::GetName() const
+std::wstring TaskMakeTestPlanDescriptor::GetName() const
 {
+    return L"составлять тестовые планы";
 }
 
-std::string TaskCalcSalary::GetName() const
+std::wstring TaskCalcSalaryDescriptor::GetName() const
 {
+    return L"начислять зарплату";
 }
 
-std::string TaskMakeQuarterlyReport::GetName() const
+std::wstring TaskMakeQuarterlyReportDescriptor::GetName() const
 {
+    return L"составить квартальный отчет";
 }

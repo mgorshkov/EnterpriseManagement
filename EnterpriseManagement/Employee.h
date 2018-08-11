@@ -1,25 +1,43 @@
 #pragma once
 
 #include <string>
-#include <list>
-#include <unordered_map>
+
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/member.hpp>
+#include <boost/multi_index/composite_key.hpp>
+#include <boost/multi_index/ordered_index.hpp>
 
 struct Employee
 {
-    std::string mDepartment;
-    std::string mName;
-    std::string mRole;
+    std::wstring mDepartment;
+    std::wstring mName;
+    std::wstring mRole;
 
-    friend std::ostream& operator << (std::ostream& stream, const Employee& aEmployee)
+    struct ByDepartment {};
+    struct ByDepartmentAndName {};
+
+    inline friend std::wostream& operator << (std::wostream& stream, const Employee& aEmployee)
     {
         stream << aEmployee.mDepartment
-        	<< std::string(" ")
-        	<< aEmployee.mName
-        	<< std::string(" ")
-        	<< aEmployee.mRole;
+            << std::wstring(L" ")
+            << aEmployee.mName
+            << std::wstring(L" ")
+            << aEmployee.mRole;
         return stream;
     }
 };
 
-using Department = std::list<Employee>;
-using Departments = std::unordered_map<std::string, Department>;
+using Employees = boost::multi_index_container<Employee,
+    boost::multi_index::indexed_by<
+        boost::multi_index::ordered_non_unique<
+            boost::multi_index::tag<Employee::ByDepartmentAndName>, boost::multi_index::composite_key<
+                Employee,
+                boost::multi_index::member<Employee, std::wstring, &Employee::mDepartment>,
+                boost::multi_index::member<Employee, std::wstring, &Employee::mName>
+            >
+        >,
+        boost::multi_index::ordered_non_unique<
+            boost::multi_index::tag<Employee::ByDepartment>, boost::multi_index::member<Employee, std::wstring, &Employee::mDepartment>
+        >
+    >
+>;

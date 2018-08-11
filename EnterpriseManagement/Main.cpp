@@ -2,6 +2,7 @@
 #include <list>
 #include <string>
 
+#include "Defines.h"
 #include "EnterpriseManagement.h"
 
 int main(int argc, char* argv[])
@@ -14,12 +15,11 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        std::list<std::string> files;
+        Files files;
         for (int i = 0; i < argc; ++i)
             files.push_back(argv[i]);
 
         EnterpriseManagement enterpriseManagement(files);
-        enterpriseManagement.Run();
     }
     catch (const std::exception& e)
     {

@@ -1,16 +1,19 @@
 #pragma once
 
-#include <unordered_map>
-#include <list>
-
 #include <boost/filesystem.hpp>
 
+#include "Defines.h"
 #include "Employee.h"
 
 class CsvParser
 {
 public:
-    static Departments Parse(const std::list<std::string>& aFiles);
+    CsvParser(const Files& aFiles);
 
-    static Department ParseFile(const boost::filesystem::path& aPath);
+    Employees GetEmployees() const;
+
+private:
+    void ParseFile(const boost::filesystem::path& aPath);
+
+    Employees mEmployees;
 };
