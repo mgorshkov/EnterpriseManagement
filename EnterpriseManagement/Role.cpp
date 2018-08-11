@@ -1,4 +1,5 @@
 ﻿#include <algorithm>
+#include <iterator>
 
 #include "Role.h"
 #include "Task.h"

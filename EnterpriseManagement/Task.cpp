@@ -1,4 +1,4 @@
-#include "Task.h"
+﻿#include "Task.h"
 
 std::wstring TaskGoOnVacationDescriptor::GetName() const
 {

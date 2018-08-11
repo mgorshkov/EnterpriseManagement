@@ -1,4 +1,6 @@
-#include <iostream>
+﻿#include <iostream>
+#include <fstream>
+#include <codecvt>
 
 #include <boost/algorithm/string.hpp>
 
@@ -13,7 +15,7 @@ CsvParser::CsvParser(const Files& aFiles)
         boost::filesystem::path path(pathName);
         if (!boost::filesystem::exists(path))
         {
-            std::cerr << "File " << path << " does not exist, skipping" << std::endl;
+            std::wcerr << L"Файл " << path << L" не существует, пропускаю..." << std::endl;
             continue;
         }
         ParseFile(path);
@@ -28,16 +30,18 @@ Employees CsvParser::GetEmployees() const
 void CsvParser::ParseFile(const boost::filesystem::path& aPath)
 {
     std::wfstream stream(aPath.string());
+	stream.imbue(std::locale(stream.getloc(), new std::codecvt_utf8<wchar_t>));
+
     std::wstring line;
     // header
     std::getline(stream, line);
     boost::algorithm::trim(line);
     std::vector<std::wstring> strs;
-    boost::split(strs, line, boost::is_any_of(" \t"));
+	boost::split(strs, line, boost::is_any_of(L";"));
 
     if (strs.size() != 2)
     {
-        std::wcerr << L"Неверный формат, файл " << aPath.wstring() << L", пропускаем" << std::endl;
+        std::wcerr << L"Неверный формат, файл " << aPath.wstring() << L", пропускаю..." << std::endl;
         return;
     }
 
@@ -62,7 +66,7 @@ void CsvParser::ParseFile(const boost::filesystem::path& aPath)
     {
         boost::algorithm::trim(line);
         std::vector<std::wstring> strs;
-        boost::split(strs, line, boost::is_any_of(" \t"));
+		boost::split(strs, line, boost::is_any_of(";"));
 
         if (strs.size() != 2)
         {
@@ -70,6 +74,7 @@ void CsvParser::ParseFile(const boost::filesystem::path& aPath)
             continue;
         }
 
-        mEmployees.insert({aPath.filename().wstring(), strs[surnameIndex], strs[roleIndex]});
+		auto department = aPath.stem().wstring();
+        mEmployees.insert({department, strs[surnameIndex], strs[roleIndex]});
     }
 }

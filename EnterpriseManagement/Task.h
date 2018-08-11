@@ -27,7 +27,7 @@ public:
 
 inline std::wostream& operator << (std::wostream& stream, const ITaskDescriptor& t)
 {
-    return stream << t.GetName();
+    return stream << t.GetName().c_str();
 }
 
 using Tasks = std::set<Task>;

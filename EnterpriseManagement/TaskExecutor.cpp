@@ -108,7 +108,7 @@ TaskResults TaskExecutor::PerformTaskByEmployee(Task aTask, const std::wstring& 
     Employees::index<Employee::ByDepartmentAndName>::type::iterator keyItBegin, keyItEnd;
     std::tie(keyItBegin, keyItEnd) = mEmployees.get<Employee::ByDepartmentAndName>().equal_range(std::make_tuple(aDepartment, aEmployeeName));
     if (keyItBegin == keyItEnd)
-        return TaskResults{TaskResult{TaskStatus::UnknownEmployee}};
+        return TaskResults{TaskResult{TaskStatus::UnknownEmployeeOrDepartment}};
 
     TaskResults taskResults;
     while (keyItBegin != keyItEnd)
@@ -120,7 +120,7 @@ TaskResults TaskExecutor::PerformTaskByEmployee(Task aTask, const std::wstring& 
 TaskResults TaskExecutor::PerformTaskByEmployeeOrDepartment(Task aTask, const std::wstring& aTaskBody)
 {
     std::vector<std::wstring> strs;
-    boost::split(strs, aTaskBody, boost::is_any_of(" \t"));
+	boost::split(strs, aTaskBody, boost::is_any_of(L" \t"));
 
     auto department = strs[0];
     if (strs.size() == 1)
