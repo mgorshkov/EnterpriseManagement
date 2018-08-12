@@ -52,24 +52,26 @@ void TaskExecutor::RegisterTask(Task aTask, std::unique_ptr<ITaskDescriptor> aTa
 
 TaskResults TaskExecutor::PerformTask(const std::wstring& aLine)
 {
+	auto line(aLine);
+	boost::algorithm::trim(line);
+
     for (const auto& taskDescriptor : mTaskDescriptors)
     {
         auto taskName = taskDescriptor.second->GetName();
-        auto pos = aLine.find(taskName);
-        if (pos != std::wstring::npos)
-        {
-            auto task = taskDescriptor.first;
+        auto pos = line.find(taskName);
+		if (pos != 0)
+			continue;
 
-            std::wstring taskBody;
-            if (aLine.length() > taskName.length())
-            {
-                taskBody = aLine.substr(taskName.length() + 1, aLine.length() - taskName.length());
-                boost::algorithm::trim(taskBody);
-                return PerformTaskByEmployeeOrDepartment(task, taskBody);
-            }
-            else
-                return PerformTaskByEverybody(task);
+        auto task = taskDescriptor.first;
+
+        if (line.length() > taskName.length())
+        {
+			auto taskBody = line.substr(taskName.length() + 1, line.length() - taskName.length());
+            boost::algorithm::trim(taskBody);
+            return PerformTaskByEmployeeOrDepartment(task, taskBody);
         }
+
+		return PerformTaskByEverybody(task);
     }   
   
     return TaskResults{TaskResult{TaskStatus::UnknownTask}};
@@ -120,7 +122,7 @@ TaskResults TaskExecutor::PerformTaskByEmployee(Task aTask, const std::wstring& 
 TaskResults TaskExecutor::PerformTaskByEmployeeOrDepartment(Task aTask, const std::wstring& aTaskBody)
 {
     std::vector<std::wstring> strs;
-	boost::split(strs, aTaskBody, boost::is_any_of(L" \t"));
+	boost::split(strs, aTaskBody, boost::is_any_of(L" \t"), boost::algorithm::token_compress_on);
 
     auto department = strs[0];
     if (strs.size() == 1)

@@ -21,7 +21,8 @@ int main(int argc, char* argv[])
         if (argc < 2)
         {
             std::wcerr << LR"(Использование: EnterpriseManagement <csv1> <csv2>...
-Пример. ExterpriseManagement dep1.txt dep2.txt
+<ввести команды>
+Пример. EnterpriseManagement dep1.txt dep2.txt
 уйти в отпуск
 dep1.txt Волков Бухгалтер OK
 dep1.txt Иванов Разработчик OK
