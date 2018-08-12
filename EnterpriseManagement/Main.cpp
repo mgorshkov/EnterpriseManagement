@@ -1,9 +1,9 @@
 ﻿#include <iostream>
 #include <list>
 #include <string>
-#include <fcntl.h>
 #ifdef _WIN32
-	#include <io.h>
+#include <fcntl.h>
+#include <io.h>
 #endif
 #include "Defines.h"
 #include "EnterpriseManagement.h"
