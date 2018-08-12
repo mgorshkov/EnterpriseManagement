@@ -48,19 +48,29 @@ inline std::wostream& operator << (std::wostream& stream, TaskStatus ts)
 
 struct TaskResult
 {
-    TaskResult(TaskStatus aStatus = TaskStatus::Ok, const Employee& aEmployee = Employee())
+    TaskResult(TaskStatus aStatus)
         : mStatus(aStatus)
-        , mEmployee(aEmployee)
+        , mEmployeeInited(false)
     {
     }
-    TaskStatus mStatus;
+	TaskResult(TaskStatus aStatus, const Employee& aEmployee)
+		: mStatus(aStatus)
+		, mEmployee(aEmployee)
+		, mEmployeeInited(true)
+	{
+	}
+	TaskStatus mStatus;
     Employee mEmployee;
+	bool mEmployeeInited;
 
-    inline friend std::wostream& operator << (std::wostream& stream, const TaskResult& result)
-    {
-        stream << result.mEmployee
-			<< L" "
-			<< result.mStatus
+	inline friend std::wostream& operator << (std::wostream& stream, const TaskResult& result)
+	{
+		if (result.mEmployeeInited)
+		{
+			stream << result.mEmployee
+				<< L" ";
+		}
+		stream << result.mStatus
 			<< std::endl;
         return stream;
     }
